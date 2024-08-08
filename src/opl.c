@@ -188,7 +188,7 @@ int gPadMacroSource;
 int gPadMacroSettings;
 #endif
 int gScrollSpeed;
-char gExitPath[32];
+char gExitPath[256];
 int gEnableDebug;
 int gPS2Logo;
 int gDefaultDevice;
@@ -492,7 +492,6 @@ int oplScanApps(int (*callback)(const char *path, config_set_t *appConfig, void 
 {
     struct dirent *pdirent;
     DIR *pdir;
-    struct stat st;
     int i, count, ret;
     item_list_t *listSupport;
     config_set_t *appConfig;
@@ -513,9 +512,7 @@ int oplScanApps(int (*callback)(const char *path, config_set_t *appConfig, void 
                         continue;
 
                     snprintf(dir, sizeof(dir), "%s/%s", appsPath, pdirent->d_name);
-                    if (stat(dir, &st) < 0)
-                        continue;
-                    if (!S_ISDIR(st.st_mode))
+                    if (pdirent->d_type != DT_DIR)
                         continue;
 
                     snprintf(path, sizeof(path), "%s/%s", dir, APP_TITLE_CONFIG_FILE);
@@ -1772,6 +1769,8 @@ static void init(void)
     menuInit();
 
     startPads();
+
+    bdmInitSemaphore();
 
     // compatibility update handler
     ioRegisterHandler(IO_COMPAT_UPDATE_DEFFERED, &compatDeferredUpdate);
