@@ -368,8 +368,8 @@ elfldr/elfldr.elf: elfldr
 	echo "-Elf Loader"
 	$(MAKE) -C $<
 
-$(EE_ASM_DIR)elfldr.s: elfldr/elfldr.elf | $(EE_ASM_DIR)
-	$(BIN2S) $< $@ elfldr_elf
+$(EE_ASM_DIR)elfldr.c: elfldr/elfldr.elf | $(EE_ASM_DIR)
+	$(BIN2C) $< $@ $(*F)_elf
 
 modules/iopcore/imgdrv/imgdrv.irx: modules/iopcore/imgdrv
 	$(MAKE) -C $<
