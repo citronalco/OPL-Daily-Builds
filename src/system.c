@@ -49,7 +49,7 @@ extern unsigned char eecore_elf[];
 extern unsigned int size_eecore_elf;
 
 //START of OPL_DB tweaks
-extern void *elfldr_elf;
+extern unsigned char elfldr_elf[];
 extern int size_elfldr_elf;
 //END of OPL_DB tweaks
 
